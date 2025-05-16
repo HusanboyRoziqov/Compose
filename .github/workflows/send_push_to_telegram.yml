@@ -15,23 +15,45 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_BODY: ${{ github.event.pull_request.body }}
           JIRA_DOMAIN: "eskhatadigital.atlassian.net"
         run: |
-         # Extract EO-XXX Jira key (specific to your project)
+          # Function to escape MarkdownV2 special characters
+          escape_markdown() {
+            echo "$1" | sed -e 's/[_\*\[\]()~`>#+-=|{}\.!]/\\&/g'
+          }
+
+          # Extract EO-XXX Jira key
           JIRA_KEY=$(echo "$PR_TITLE $PR_BODY" | grep -oE 'EO-[0-9]+' | head -1)
           
-          MESSAGE="👤 $PR_AUTHOR created pull request:
-         
-          💬 *Title:* \`$PR_TITLE\`
-          👤 *Author:* [@$PR_AUTHOR](https://github.com/$PR_AUTHOR)
-          🔗 *Github:* [View Pull Request]($PR_URL)"
-           if [ -n "$JIRA_KEY" ]; then
-             MESSAGE+=$'🔍 Jira: https://$JIRA_DOMAIN/browse/$JIRA_KEY\n'
-          else 
-            MESSAGE+=$'⚠️ No Jira ticket referenced\n'
+          # Escape all text elements
+          ESCAPED_AUTHOR=$(escape_markdown "$PR_AUTHOR")
+          ESCAPED_TITLE=$(escape_markdown "$PR_TITLE")
+          
+          # Build message parts
+          MAIN_MSG=$(escape_markdown "👤 $ESCAPED_AUTHOR created pull request:")
+          TITLE_MSG=$(escape_markdown "💬 Title:")
+          AUTHOR_MSG=$(escape_markdown "👤 Author:")
+          GITHUB_MSG=$(escape_markdown "🔗 Github:")
+          JIRA_MSG=$(escape_markdown "🔍 Jira:")
+          NO_JIRA_MSG=$(escape_markdown "⚠️ No Jira ticket referenced")
+
+          # Format base message
+          MESSAGE="*$MAIN_MSG*\n\n"
+          MESSAGE+="*$TITLE_MSG* \`$ESCAPED_TITLE\`\n"
+          MESSAGE+="*$AUTHOR_MSG* [@$ESCAPED_AUTHOR](https://github.com/$PR_AUTHOR)\n"
+          MESSAGE+="*$GITHUB_MSG* [View Pull Request]($PR_URL)\n"
+          
+          # Add Jira info
+          if [ -n "$JIRA_KEY" ]; then
+            MESSAGE+="*$JIRA_MSG* [View Ticket](https://$JIRA_DOMAIN/browse/$JIRA_KEY)\n"
+          else
+            MESSAGE+="$NO_JIRA_MSG\n"
           fi
+          
+          # Send to Telegram
           curl -s -X POST \
-               -d "chat_id=$TELEGRAM_CHAT_ID" \
-               -d "text=$MESSAGE" \
-               -d "parse_mode=Markdown" \
-               "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage"
+            -d "chat_id=$TELEGRAM_CHAT_ID" \
+            -d "text=$MESSAGE" \
+            -d "parse_mode=MarkdownV2" \
+            "https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage"
