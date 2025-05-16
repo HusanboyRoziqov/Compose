@@ -1,6 +1,5 @@
 package tj.market.firstcomposeproject
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,9 +26,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        Intent(this, MLKitActivity::class.java).apply {
-            startActivity(this)
-        }
 
         setContent {
 

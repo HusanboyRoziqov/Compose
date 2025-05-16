@@ -63,20 +63,4 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation("androidx.navigation:navigation-compose:2.8.9")
     implementation("androidx.compose.material:material:1.7.8")
-
-    implementation("com.google.mlkit:face-detection:16.1.7")
-
-    implementation(" 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.1'")
-
-    // To recognize Chinese script
-    implementation ("com.google.android.gms:play-services-mlkit-text-recognition-chinese:16.0.1")
-
-    // To recognize Devanagari script
-    implementation ("com.google.android.gms:play-services-mlkit-text-recognition-devanagari:16.0.1")
-
-    // To recognize Japanese script
-    implementation ("com.google.android.gms:play-services-mlkit-text-recognition-japanese:16.0.1")
-
-    // To recognize Korean script
-    implementation ("com.google.android.gms:play-services-mlkit-text-recognition-korean:16.0.1")
 }
