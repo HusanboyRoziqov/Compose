@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     object Settings : Screen(Route_Settings)
 
 
+    //test
     private companion object {
         const val Route_Home = "home"
         const val Route_Profile = "profile"
