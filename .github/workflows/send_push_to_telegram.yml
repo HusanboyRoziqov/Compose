@@ -15,12 +15,20 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          JIRA_DOMAIN: "eskhatadigital.atlassian.net"
         run: |
+         # Extract EO-XXX Jira key (specific to your project)
+          JIRA_KEY=$(echo "$PR_TITLE $PR_BODY" | grep -oE 'EO-[0-9]+' | head -1)
+          
           MESSAGE="👤 $PR_AUTHOR created pull request:
          
           💬 *Title:* \`$PR_TITLE\`
           👤 *Author:* [@$PR_AUTHOR](https://github.com/$PR_AUTHOR)
           🔗 *Github:* [View Pull Request]($PR_URL)"
+          if [ -n "$JIRA_KEY" ]; then
+            MESSAGE+="🔍 Jira: https://$JIRA_DOMAIN/browse/$JIRA_KEY\n"
+          fi
+
           
           curl -s -X POST \
                -d "chat_id=$TELEGRAM_CHAT_ID" \
