@@ -27,6 +27,8 @@ jobs:
           🔗 *Github:* [View Pull Request]($PR_URL)"
           if [ -n "$JIRA_KEY" ]; then
             MESSAGE+="🔍 Jira: https://$JIRA_DOMAIN/browse/$JIRA_KEY\n"
+            else
+            MESSAGE+="⚠️ No Jira ticket referenced\n"
           fi
 
           
