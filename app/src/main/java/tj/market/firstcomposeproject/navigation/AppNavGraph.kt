@@ -12,7 +12,6 @@ fun AppNavGraph(
     settingsScreenContent: @Composable () -> Unit,
     profileScreenContent: @Composable () -> Unit,
 ) {
-
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route
