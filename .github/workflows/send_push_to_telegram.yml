@@ -19,7 +19,7 @@ jobs:
           MESSAGE="👤 $PR_AUTHOR created pull request:
          
           💬 *Title:* \`$PR_TITLE\`
-          
+          👤 *Author:* [@$PR_AUTHOR](https://github.com/$PR_AUTHOR)
           🔗 *Github:* [View Pull Request]($PR_URL)"
           
           curl -s -X POST \
