@@ -19,7 +19,7 @@ jobs:
           MESSAGE="🚀 *New Pull Request* 🚀:
           📌 *Title:* \`$PR_TITLE\`
           👤 *Author:* [@$PR_AUTHOR](https://github.com/$PR_AUTHOR)
-          🔗 *URL:* [View Pull Request]($PR_URL)
+          🔗 *URL:* \`$PR_URL\`
           
           curl -s -X POST \
                -d "chat_id=$TELEGRAM_CHAT_ID" \
