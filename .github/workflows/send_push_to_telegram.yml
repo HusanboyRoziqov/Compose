@@ -26,9 +26,9 @@ jobs:
           👤 *Author:* [@$PR_AUTHOR](https://github.com/$PR_AUTHOR)
           🔗 *Github:* [View Pull Request]($PR_URL)"
            if [ -n "$JIRA_KEY" ]; then
-             MESSAGE+=$'🔍 Jira: https://$JIRA_DOMAIN/browse/$JIRA_KEY\n'
+             *Jira:* '\🔍 Jira: https://$JIRA_DOMAIN/browse/$JIRA_KEY\'
           else 
-            MESSAGE+=$'⚠️ No Jira ticket referenced\n'
+            *Jira:* '\⚠️ No Jira ticket referenced\'
           fi
           curl -s -X POST \
                -d "chat_id=$TELEGRAM_CHAT_ID" \
